@@ -1,0 +1,14 @@
+---
+// Onda orgánica que asoma por encima de una banda, del mismo color que ella (--banda). Decorativa.
+// `forma`: 1 (ola suave) o 2 (dos lomas); `espejo` la voltea en horizontal para variar el ritmo.
+interface Props { forma?: 1 | 2; espejo?: boolean }
+const { forma = 1, espejo = false } = Astro.props;
+const caminos = {
+  1: 'M0 80V44C120 14 260 4 420 26S720 88 920 62 1260 2 1440 30V80Z',
+  2: 'M0 80V52C160 22 300 18 450 40S700 76 860 48 1120 0 1290 18 1440 46 1440 46V80Z',
+};
+---
+
+<svg class:list={['onda', { 'onda--espejo': espejo }]} viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <path d={caminos[forma]} fill="currentColor" />
+</svg>

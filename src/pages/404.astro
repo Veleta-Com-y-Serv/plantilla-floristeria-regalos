@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Mancha from '../components/ui/Mancha.astro';
+---
+
+<Base titulo="Página no encontrada">
+  <section class="banda banda--rosa">
+    <div class="deco">
+      <Mancha forma={1} contorno class="error-mancha-1" />
+      <Mancha forma={3} class="error-mancha-2" />
+    </div>
+    <div class="contenedor relative z-[1] grid min-h-[70svh] content-center justify-items-center py-20 text-center">
+      <p class="serif text-[clamp(6rem,22vw,14rem)] leading-none">404</p>
+      <h1 class="titulo-seccion mt-4">Esta página se ha marchitado</h1>
+      <p class="mt-5 max-w-md text-lg opacity-90">Puede que el enlace esté mal o que la página se haya movido.</p>
+      <p class="mt-9"><a class="btn" href="/">Volver al inicio</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  :global(.error-mancha-1) { width: 30rem; left: -10rem; top: -6rem; opacity: .4; }
+  :global(.error-mancha-2) { width: 18rem; right: -5rem; bottom: -5rem; color: var(--c-primario); opacity: .25; }
+</style>

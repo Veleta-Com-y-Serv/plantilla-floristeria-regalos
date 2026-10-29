@@ -1,0 +1,16 @@
+---
+// Envoltorio de sección. Adaptado de AstroWind (WidgetWrapper.astro), © onWidget, licencia MIT (LICENSE-ASTROWIND.md).
+// Cada sección es una banda a todo el ancho (`banda`: crema, polvo, salvia, hoja, rosa u honda) con el contenido
+// dentro del contenedor de 90 rem (16 px de margen lateral en móvil). `onda` pinta la onda orgánica de arriba.
+import Onda from './Onda.astro';
+interface Props { id?: string; class?: string; contenedor?: string; banda?: string; onda?: 0 | 1 | 2; espejo?: boolean; etiqueta?: string }
+const { id, class: clase = '', contenedor = '', banda = 'crema', onda = 0, espejo = false, etiqueta } = Astro.props;
+---
+
+<section class:list={['seccion banda', `banda--${banda}`, clase]} id={id} aria-label={etiqueta}>
+  {onda > 0 && <Onda forma={onda as 1 | 2} espejo={espejo} />}
+  {Astro.slots.has('deco') && <div class="deco"><slot name="deco" /></div>}
+  <div class:list={['contenedor', contenedor]}>
+    <slot />
+  </div>
+</section>

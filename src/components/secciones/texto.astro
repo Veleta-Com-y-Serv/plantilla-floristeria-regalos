@@ -1,0 +1,62 @@
+---
+// Apartado de texto genérico (apartados nuevos que pide el cliente, site.yaml: `tipo: texto`): banda rosa
+// empolvado a todo el ancho. Con `imagen`, partido a sangre (texto | foto hasta el borde de la ventana); sin ella,
+// título a la izquierda y párrafos a la derecha. `items` (titulo, texto, icono) con una hojita y `cta` opcionales.
+import { seccion, parrafos } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it && it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="banda banda--polvo">
+      <div class:list={['celdas', !s.imagen && 'texto--sola']}>
+        <div class:list={['celda', s.imagen ? 'celda--izq' : 'contenedor texto-dos']}>
+          <div>
+            {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+            {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+          </div>
+          <div>
+            <div class="texto-parrafos">
+              {parrafos(s.texto).map((p) => <p>{p}</p>)}
+            </div>
+            {items.length > 0 && (
+              <ul class="texto-items">
+                {items.map((it) => (
+                  <li>
+                    <span class="texto-hojita" aria-hidden="true"><Icono nombre={it.icono || 'hoja'} tam={16} /></span>
+                    <span>
+                      <span class="block font-semibold">{it.titulo}</span>
+                      {it.texto && <span class="block text-[.95rem] opacity-80">{it.texto}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {s.cta?.url && <a class="btn mt-9" href={s.cta.url}>{s.cta.texto}</a>}
+          </div>
+        </div>
+        {s.imagen && (
+          <div class="celda-foto">
+            <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={1200} />
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .texto--sola { grid-template-columns: 1fr; }
+  .texto-dos { display: grid; gap: 1.5rem; }
+  @media (min-width: 900px) { .texto-dos { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 5rem; } }
+  .texto-parrafos { margin-top: 1.5rem; display: grid; gap: 1rem; font-size: 1.08rem; opacity: .88; max-width: 44rem; }
+  .texto-dos .texto-parrafos { margin-top: 0; }
+  .texto-items { margin-top: 2rem; display: grid; gap: 1rem; }
+  .texto-items li { display: flex; gap: .8rem; align-items: flex-start; }
+  .texto-hojita { display: grid; place-items: center; flex: none; width: 2rem; height: 2rem; border-radius: var(--petalo-3); background: var(--c-primario); color: var(--c-sobre-primario); }
+</style>

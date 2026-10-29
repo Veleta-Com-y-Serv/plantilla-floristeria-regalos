@@ -1,0 +1,67 @@
+---
+// Contacto: partido a sangre. A la izquierda, banda rosa viejo con el titular, las vías de contacto en grande
+// (dirección, teléfono, WhatsApp, correo y horario, con su icono en un pétalo) y el plano (`imagen`) con borde de
+// pétalo que enlaza a mapas; a la derecha, el formulario sobre verde salvia muy claro. En móvil, primero los datos.
+// Campos: `antetitulo`, `titulo`, `texto`, `imagen` (plano opcional), `boton` (texto del botón, opcional).
+import { seccion, site, tel, mapa, whatsapp, valor } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const datos = [
+  c.direccion && { icono: 'mapa', valor: c.direccion, url: mapa(c.direccion), externo: true },
+  c.telefono && { icono: 'telefono', valor: c.telefono, url: tel(c.telefono), externo: false },
+  c.whatsapp && { icono: 'whatsapp', valor: c.whatsapp, url: whatsapp(c.whatsapp), externo: true },
+  c.email && { icono: 'correo', valor: c.email, url: `mailto:${c.email}`, externo: false },
+  c.horario && { icono: 'reloj', valor: c.horario, url: '', externo: false },
+].filter(Boolean) as { icono: string; valor: string; url: string; externo: boolean }[];
+const boton = valor(s?.boton) || undefined;
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="banda banda--salvia">
+      <div class="celdas">
+        <div class="celda celda--izq banda banda--rosa contacto-datos">
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {datos.length > 0 && (
+            <ul class="contacto-lista">
+              {datos.map((d) => (
+                <li>
+                  <span class="contacto-icono" aria-hidden="true"><Icono nombre={d.icono} tam={20} /></span>
+                  <span class="min-w-0 self-center break-words">
+                    {d.url ? <a href={d.url} rel={d.externo ? 'noopener' : undefined} target={d.externo ? '_blank' : undefined}>{d.valor}</a> : d.valor}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.imagen && (
+            <a href={mapa(c.direccion) || undefined} rel="noopener" target="_blank" class="contacto-mapa petalo-2" aria-label={c.direccion ? `Ver en el mapa: ${c.direccion}` : site.nombre}>
+              <Imagen src={s.imagen} alt="" ancho={1000} alto={700} />
+            </a>
+          )}
+        </div>
+        <div class="celda celda--der contacto-form">
+          <FormularioContacto boton={boton} />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .contacto-datos { position: relative; }
+  .contacto-lista { display: grid; gap: 1.25rem; }
+  .contacto-lista li { display: flex; gap: 1rem; align-items: flex-start; font-size: 1.1rem; }
+  .contacto-lista a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
+  .contacto-lista a:hover { text-decoration-thickness: 2px; }
+  .contacto-icono { display: grid; place-items: center; flex: none; width: 2.75rem; height: 2.75rem; border-radius: var(--petalo-3); background: color-mix(in srgb, var(--c-sobre-acento) 16%, transparent); }
+  .contacto-mapa { display: block; margin-top: 2.5rem; overflow: hidden; max-width: 34rem; aspect-ratio: 10 / 7; background: var(--polvo); }
+  .contacto-mapa :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .contacto-form { display: grid; align-content: center; }
+  @media (min-width: 768px) { .contacto-form :global(.formulario) { max-width: 36rem; } }
+</style>

@@ -1,0 +1,89 @@
+---
+// Portada partida a sangre: mitad de color rosa viejo con el título enorme en cursiva, el texto y dos botones;
+// mitad con la foto (`imagen`, o la primera de `galeria`) hasta el borde de la ventana, con el borde interior
+// ondulado como un pétalo. Debajo, una cinta verde a todo el ancho con `items` (solo `titulo`), si los hay.
+// Sin foto, el título va centrado en la banda de color.
+import { seccion } from '../../data/site';
+import { altHero } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+import Mancha from '../ui/Mancha.astro';
+interface Props { id: string; primera?: boolean }
+const { id, primera = false } = Astro.props;
+const s = seccion(id);
+const foto = s ? s.imagen || s.galeria[0] || '' : '';
+const cinta = s ? s.items.filter((it) => it && it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={id} class="hero banda banda--rosa">
+      <div class:list={['hero-rejilla', foto ? 'hero-rejilla--foto' : 'hero-rejilla--sola']}>
+        <div class="hero-texto">
+          <div class="deco">
+            <Mancha forma={2} contorno class="hero-mancha-1" />
+            <Mancha forma={3} class="hero-mancha-2" />
+          </div>
+          <div class="hero-dentro">
+            {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+            {s.titulo && <h1 class="hero-titulo">{s.titulo}</h1>}
+            {s.texto && <p class="hero-parrafo">{s.texto}</p>}
+            {(s.cta?.url || s.cta_secundario?.url) && (
+              <div class="hero-botones">
+                {s.cta?.url && <a class="btn" href={s.cta.url}>{s.cta.texto}</a>}
+                {s.cta_secundario?.url && <a class="btn-sec" href={s.cta_secundario.url}>{s.cta_secundario.texto}</a>}
+              </div>
+            )}
+          </div>
+        </div>
+        {foto && (
+          <div class="hero-foto">
+            <Imagen src={foto} alt={altHero()} ancho={1400} alto={1600} prioridad={primera} />
+          </div>
+        )}
+      </div>
+      {cinta.length > 0 && (
+        <ul class="hero-cinta banda banda--hoja">
+          {cinta.map((it) => (
+            <li>
+              <Icono nombre="flor" tam={18} />
+              <span>{it.titulo}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  )
+}
+
+<style>
+  .hero-rejilla { display: grid; }
+  .hero-texto { position: relative; display: grid; align-items: center; padding: 3.25rem 1rem 3.5rem; }
+  .hero-dentro { position: relative; z-index: 1; max-width: 44rem; }
+  .hero-titulo { margin-top: 1.25rem; font-size: clamp(2.75rem, 6.6vw, 6.75rem); line-height: .98; letter-spacing: -.025em; }
+  .hero-parrafo { margin-top: 1.5rem; max-width: 34rem; font-size: 1.15rem; opacity: .92; }
+  .hero-botones { margin-top: 2.25rem; display: flex; flex-wrap: wrap; gap: .75rem; }
+  .hero-foto { position: relative; min-height: 22rem; overflow: hidden; background: var(--polvo); border-top-left-radius: 46% 3.5rem; }
+  .hero-foto :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-texto :global(.hero-mancha-1) { width: 22rem; right: -9rem; top: -6rem; opacity: .35; }
+  .hero-texto :global(.hero-mancha-2) { width: 9rem; left: -3rem; bottom: -3rem; color: var(--c-primario); opacity: .22; }
+  .hero-rejilla--sola .hero-texto { justify-items: center; text-align: center; }
+  .hero-rejilla--sola .hero-dentro { max-width: 60rem; }
+  .hero-rejilla--sola .hero-parrafo { margin-inline: auto; }
+  .hero-rejilla--sola .hero-botones { justify-content: center; }
+  .hero-rejilla--sola { min-height: 70svh; align-content: center; }
+
+  @media (min-width: 768px) {
+    .hero-rejilla--foto { grid-template-columns: 1.05fr 1fr; min-height: calc(88svh - 5rem); }
+    .hero-texto { padding: 5rem clamp(2rem, 4vw, 4.5rem) 5.5rem max(2rem, calc((100vw - var(--ancho)) / 2 + 2rem)); }
+    .hero-foto { min-height: 100%; border-radius: 0; border-top-left-radius: 28% 52%; border-bottom-left-radius: 14% 48%; }
+    .hero-texto :global(.hero-mancha-1) { width: 30rem; right: -12rem; top: -8rem; }
+  }
+  @media (min-width: 1100px) { .hero-texto { padding-block: 6rem; } }
+
+  /* Abajo deja sitio a la onda de la banda siguiente, que se monta sobre la cinta */
+  .hero-cinta { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem 2.25rem; padding: 1.1rem 1rem calc(1.1rem + clamp(22px, 4.2vw, 70px)); font-size: .95rem; font-weight: 600; }
+  .hero-cinta li { display: inline-flex; align-items: center; gap: .55rem; }
+  .hero-cinta :global(svg) { color: var(--realce); flex: none; }
+  @media (min-width: 768px) { .hero-cinta { padding-top: 1.5rem; font-size: 1.05rem; gap: 1rem 3.5rem; } }
+</style>

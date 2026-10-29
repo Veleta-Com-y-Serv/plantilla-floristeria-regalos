@@ -1,0 +1,51 @@
+---
+// Galería a borde completo: el titular y el botón (p. ej. a Instagram) dentro del contenedor y, debajo, un mosaico
+// de fotos sin márgenes de borde a borde de la ventana: 2 columnas en móvil y 4 en escritorio, con una foto grande
+// (2 × 2) cada cinco. Campos: `galeria[]` (rutas), `cta` opcional. Sin fotos, la sección no se pinta.
+import { seccion } from '../../data/site';
+import { altGaleria } from '../../lib/seo';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const fotos = s ? s.galeria.filter(Boolean) : [];
+const externo = (url?: string) => !!url && /^https?:/.test(url);
+const esInstagram = (url?: string) => !!url && /instagram\.com/i.test(url);
+---
+
+{
+  s && fotos.length > 0 && (
+    <section id={Astro.props.id} class="banda banda--crema gal">
+      <div class="contenedor gal-cabeza">
+        <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} class="!mb-0" />
+        {s.cta?.url && (
+          <a class="btn-sec shrink-0" href={s.cta.url} rel={externo(s.cta.url) ? 'noopener' : undefined} target={externo(s.cta.url) ? '_blank' : undefined}>
+            {esInstagram(s.cta.url) && <Icono nombre="instagram" tam={18} />}
+            {s.cta.texto}
+          </a>
+        )}
+      </div>
+      <ul class="gal-mosaico">
+        {fotos.map((f, i) => (
+          <li class:list={['gal-foto', { 'gal-foto--grande': i % 5 === 0 }]}>
+            <Imagen src={f} alt={altGaleria(i)} ancho={i % 5 === 0 ? 1200 : 700} alto={i % 5 === 0 ? 1200 : 700} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .gal { padding-top: var(--ritmo); }
+  @media (min-width: 768px) { .gal { padding-top: var(--ritmo-md); } }
+  .gal-cabeza { display: grid; gap: 1.5rem; justify-items: start; margin-bottom: 3rem; }
+  @media (min-width: 900px) { .gal-cabeza { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 3rem; } }
+  .gal-mosaico { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: dense; }
+  @media (min-width: 768px) { .gal-mosaico { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .gal-foto { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--polvo); }
+  .gal-foto--grande { grid-column: span 2; grid-row: span 2; }
+  .gal-foto :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .7s ease; }
+  .gal-foto:hover :global(img) { transform: scale(1.04); }
+</style>

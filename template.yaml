@@ -1,0 +1,85 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: floristeria-regalos
+nombre: Floristería y regalos
+descripcion: "Web suave y a todo color para floristerías y tiendas de regalos, con ramos por ocasión y encargos."
+sectores:
+  - { id: floristeria, nombre: Floristería }
+  - { id: regalos, nombre: Tienda de regalos }
+  - { id: papeleria, nombre: Papelería }
+  - { id: decoracion-eventos, nombre: Decoración de eventos }
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: productos, nombre: Ramos y regalos }
+  - { id: sobre, nombre: El taller }
+  - { id: cifras, nombre: Cifras }
+  - { id: servicios, nombre: Servicios }
+  - { id: encargos, nombre: Encargos }
+  - { id: galeria, nombre: Galería }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: preguntas, nombre: Preguntas frecuentes }
+  - { id: contacto, nombre: Contacto }
+estilo: suave
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-floristeria-regalos.noexpertise.com
+activa: true
+orden: 250
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu floristería"
+    pregunta: "¿Cómo se llama tu floristería o tienda y qué la hace especial?"
+    ayuda: "Por ejemplo: ramos de temporada, plantas, flores para bodas, regalos o papelería, y en qué calle o barrio estáis."
+    tipo: texto
+    campos: [nombre, eslogan, seo.titulo, seo.descripcion, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto]
+  - id: contacto
+    titulo: "Cómo te encuentran"
+    pregunta: "¿Dónde estáis y cómo os pueden llamar, escribir o hacer un encargo?"
+    ayuda: "Solo lo que quieras que vean tus clientes. Lo que dejes vacío no sale en tu web."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, redes.instagram, redes.facebook]
+  - id: productos
+    titulo: "Tus ramos y regalos"
+    pregunta: "Cuéntame lo que vendes: uno por línea, con la ocasión y el precio si quieres."
+    ayuda: "Puedes poner delante la ocasión (Cumpleaños, Bodas, Duelo, Hogar). Si lo prefieres, añádelos luego en Contenido."
+    tipo: lista
+    campos: [secciones.productos.productos]
+  - id: sobre
+    titulo: "Quiénes sois"
+    pregunta: "¿Quién está detrás de la tienda y cómo trabajáis? Desde cuándo, de dónde viene la flor, qué os importa."
+    tipo: texto
+    campos: [secciones.sobre.titulo, secciones.sobre.declaracion, secciones.sobre.texto, secciones.sobre.items]
+  - id: servicios
+    titulo: "Servicios"
+    pregunta: "¿Qué más hacéis además de vender ramos? Bodas, suscripción semanal, empresas, talleres…"
+    ayuda: "Si solo vendéis en la tienda, salta este paso y luego oculta el apartado en Contenido."
+    tipo: texto
+    campos: [secciones.servicios.titulo, secciones.servicios.texto, secciones.servicios.items]
+  - id: encargos
+    titulo: "Encargos"
+    pregunta: "¿Cómo se hace un encargo? Con cuánta antelación, si lleváis a domicilio y hasta qué hora se puede pedir para el mismo día."
+    tipo: texto
+    campos: [secciones.encargos.titulo, secciones.encargos.texto, secciones.encargos.items, secciones.encargos.nota]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué os preguntan más a menudo? Escribe cada pregunta y lo que respondéis."
+    ayuda: "Por ejemplo: si entregáis el mismo día, cómo se paga desde fuera o cuánto duran los ramos."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon una foto de portada y, si quieres, las de tu taller, tus servicios y tu galería."
+    ayuda: "Sube las tuyas o elige una del banco. Las que no cambies se quedan como están."
+    tipo: fotos
+    campos: [secciones.hero.imagen, secciones.sobre.imagen, secciones.servicios.imagen, secciones.galeria.galeria]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso

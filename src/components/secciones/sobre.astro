@@ -1,0 +1,64 @@
+---
+// El taller (quiénes somos): partido a sangre. Foto (`imagen`) a la izquierda hasta el borde de la ventana y,
+// a la derecha, banda verde hoja con el titular, la `declaracion` como cita grande en cursiva, los párrafos de
+// `texto` y los valores de `items` (titulo, texto) con una hojita. `cta` opcional. Sin foto, una sola columna ancha.
+import { seccion, parrafos, valor } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const declaracion = valor(s?.declaracion);
+const items = s ? s.items.filter((it) => it && it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="banda banda--hoja">
+      <div class:list={['celdas', !s.imagen && 'sobre--sola']}>
+        {s.imagen && (
+          <div class="celda-foto sobre-foto">
+            <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={1400} />
+          </div>
+        )}
+        <div class:list={['celda', s.imagen ? 'celda--der' : 'contenedor']}>
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+          {declaracion && <blockquote class="sobre-cita">“{declaracion}”</blockquote>}
+          {parrafos(s.texto).length > 0 && (
+            <div class="sobre-texto">
+              {parrafos(s.texto).map((p) => <p>{p}</p>)}
+            </div>
+          )}
+          {items.length > 0 && (
+            <ul class="sobre-valores">
+              {items.map((it) => (
+                <li>
+                  <span class="sobre-hojita" aria-hidden="true"><Icono nombre={it.icono || 'hoja'} tam={18} /></span>
+                  <span>
+                    <span class="block font-semibold">{it.titulo}</span>
+                    {it.texto && <span class="mt-1 block text-[.95rem] opacity-80">{it.texto}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.cta?.url && <a class="btn mt-10" href={s.cta.url}>{s.cta.texto}</a>}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .sobre-foto { min-height: 24rem; }
+  @media (min-width: 768px) { .sobre-foto { min-height: 100%; } }
+  .sobre--sola { grid-template-columns: 1fr; }
+  .sobre--sola .celda { max-width: var(--ancho); }
+  .sobre-cita { margin-top: 2rem; font-family: var(--fuente-titulos); font-style: italic; font-size: clamp(1.6rem, 3vw, 2.5rem); line-height: 1.2; color: var(--realce); }
+  .sobre-texto { margin-top: 1.75rem; display: grid; gap: 1rem; opacity: .9; max-width: 40rem; }
+  .sobre-valores { margin-top: 2.5rem; display: grid; gap: 1.5rem; padding-top: 2rem; border-top: 1px solid var(--linea); }
+  @media (min-width: 1100px) { .sobre-valores { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 2.5rem; } }
+  .sobre-valores li { display: flex; gap: .9rem; align-items: flex-start; }
+  .sobre-hojita { display: grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; border-radius: var(--petalo-3); background: var(--c-acento); color: var(--c-sobre-acento); }
+</style>

@@ -1,0 +1,75 @@
+---
+// Encargos: banda rosa empolvado a todo el ancho con una onda arriba. Titular a la izquierda y botón de WhatsApp
+// a la derecha; los pasos de `items` (titulo, texto) en fila con el número dentro de un pétalo verde; debajo, el
+// formulario ancho del encargo (ocasión, fecha de entrega, recogida o envío, dirección y mensaje para la tarjeta).
+// Las ocasiones del formulario salen de las categorías de la sección de productos. Campos: `items`, `cta`
+// (si su `url` está vacía abre WhatsApp con contacto.whatsapp), `formulario_titulo`, `boton`, `nota`.
+import { seccion, site, whatsapp, agrupar, valor } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const pasos = s ? s.items.filter((it) => it && it.titulo) : [];
+const urlCta = valor(s?.cta?.url) || whatsapp(site.contacto.whatsapp);
+const externo = /^https?:/.test(urlCta);
+const ocasiones = Object.values(site.secciones)
+  .filter((x) => x.activa)
+  .flatMap((x) => agrupar(x.productos ?? [], (p) => p.categoria).map((g) => g.grupo))
+  .filter((o, i, todas) => o && todas.indexOf(o) === i);
+const formTitulo = valor(s?.formulario_titulo);
+const boton = valor(s?.boton) || 'Enviar encargo';
+const nota = valor(s?.nota);
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id} banda="polvo" onda={1} espejo>
+      <div class="enc-cabeza">
+        <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} class="!mb-0" />
+        {urlCta && s.cta?.texto && (
+          <a class="btn shrink-0" href={urlCta} rel={externo ? 'noopener' : undefined} target={externo ? '_blank' : undefined}>
+            {/wa\.me|whatsapp/i.test(urlCta) && <Icono nombre="whatsapp" tam={18} />}
+            {s.cta.texto}
+          </a>
+        )}
+      </div>
+      {pasos.length > 0 && (
+        <ol class:list={['enc-pasos', `enc-pasos--${Math.min(pasos.length, 4)}`]}>
+          {pasos.map((p, i) => (
+            <li>
+              <span class="enc-numero" aria-hidden="true">{i + 1}</span>
+              <h3 class="enc-paso">{p.titulo}</h3>
+              {p.texto && <p class="enc-texto">{p.texto}</p>}
+            </li>
+          ))}
+        </ol>
+      )}
+      <div class="enc-formulario">
+        {formTitulo && <h3 class="enc-form-titulo">{formTitulo}</h3>}
+        <FormularioContacto encargo ocasiones={ocasiones} boton={boton} prefijo="e" asunto={`Encargo desde la web de ${site.nombre}`} />
+        {nota && <p class="enc-nota"><Icono nombre="reloj" tam={16} />{nota}</p>}
+      </div>
+    </Seccion>
+  )
+}
+
+<style>
+  .enc-cabeza { display: grid; gap: 1.75rem; justify-items: start; margin-bottom: 3rem; }
+  @media (min-width: 900px) { .enc-cabeza { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 3rem; margin-bottom: 4rem; } }
+  .enc-pasos { display: grid; gap: 2rem; counter-reset: paso; }
+  @media (min-width: 640px) { .enc-pasos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) {
+    .enc-pasos--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .enc-pasos--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  .enc-pasos li { position: relative; }
+  .enc-numero { display: grid; place-items: center; width: 3.75rem; height: 3.75rem; border-radius: var(--petalo-2); background: var(--c-primario); color: var(--c-sobre-primario); font-family: var(--fuente-titulos); font-style: italic; font-size: 1.75rem; }
+  .enc-paso { margin-top: 1rem; font-size: clamp(1.45rem, 2vw, 1.8rem); }
+  .enc-texto { margin-top: .5rem; opacity: .82; max-width: 22rem; }
+  .enc-formulario { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--linea); }
+  .enc-form-titulo { font-size: clamp(1.9rem, 3.4vw, 2.75rem); margin-bottom: 1.75rem; }
+  .enc-nota { margin-top: 1.75rem; display: flex; align-items: flex-start; gap: .5rem; font-size: .95rem; opacity: .85; }
+  .enc-nota :global(svg) { flex: none; margin-top: .2rem; }
+</style>

@@ -1,0 +1,122 @@
+---
+// Ramos, plantas y regalos por ocasión: banda crema con una onda arriba, titular a la izquierda y el filtro de
+// ocasiones a la derecha (botones de opción sin JavaScript: solo con más de una `categoria`). Rejilla de 2 columnas
+// en móvil, 3 en tableta y 4 en escritorio; cada producto con foto de borde de pétalo, ocasión, nombre, texto,
+// precio (si lo hay) y un enlace para pedirlo por WhatsApp (o al formulario de encargos si no hay WhatsApp).
+// Campos: `productos[]` (nombre, texto, precio, categoria, imagen, destacado), `boton`, `etiqueta_destacado`,
+// `nota`, `cta`. Sin productos ni texto, la sección no se pinta.
+import { seccion, site, whatsapp, agrupar, valor, slug } from '../../data/site';
+import { altFicha } from '../../lib/seo';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+import Mancha from '../ui/Mancha.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const productos = s ? s.productos.filter((p) => p && valor(p.nombre)) : [];
+const ocasiones = agrupar(productos, (p) => p.categoria).map((g) => g.grupo).filter(Boolean);
+const conFiltro = ocasiones.length > 1;
+const boton = valor(s?.boton) || 'Pedir';
+const destacadoTexto = valor(s?.etiqueta_destacado) || 'Favorito';
+const nota = valor(s?.nota);
+const destinoSin = seccion('encargos') ? '/#encargos' : '/#contacto';
+const pedir = (nombre: string) => whatsapp(site.contacto.whatsapp, `Hola, me gustaría pedir «${nombre}».`) || destinoSin;
+const formas = ['petalo-1', 'petalo-2', 'petalo-3'];
+const grupo = `${id}-ocasion`;
+// Filtro sin JavaScript: cada opción oculta los productos de las demás ocasiones (:has). Sin :has se ven todos.
+const css = conFiltro
+  ? ocasiones
+      .map((o) => `#${id}:has(#${id}-f-${slug(o)}:checked) .producto:not([data-ocasion="${slug(o)}"]){display:none}`)
+      .join('')
+  : '';
+---
+
+{
+  s && (productos.length > 0 || s.texto) && (
+    <Seccion id={id} banda="crema" onda={1}>
+      <Mancha slot="deco" forma={1} class="prod-mancha" />
+      <div class="prod-cabeza">
+        <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} class="!mb-0" />
+        {conFiltro && (
+          <fieldset class="prod-filtro">
+            <legend class="sr-only">Filtrar por ocasión</legend>
+            <input type="radio" name={grupo} id={`${id}-f-todo`} checked />
+            <label for={`${id}-f-todo`}>Todo</label>
+            {ocasiones.map((o) => (
+              <>
+                <input type="radio" name={grupo} id={`${id}-f-${slug(o)}`} />
+                <label for={`${id}-f-${slug(o)}`}>{o}</label>
+              </>
+            ))}
+          </fieldset>
+        )}
+      </div>
+      {productos.length > 0 && (
+        <ul class="prod-rejilla">
+          {productos.map((p, i) => {
+            const precio = valor(p.precio);
+            const ocasion = valor(p.categoria);
+            return (
+              <li class="producto" data-ocasion={ocasion ? slug(ocasion) : undefined}>
+                <div class:list={['prod-foto', formas[i % 3]]}>
+                  <Imagen src={p.imagen || '/placeholders/producto-1.svg'} alt={altFicha(p)} ancho={800} alto={1000} />
+                  {p.destacado === true && <span class="etiqueta prod-marca"><Icono nombre="corazon" tam={14} />{destacadoTexto}</span>}
+                </div>
+                {ocasion && <p class="prod-ocasion">{ocasion}</p>}
+                <h3 class="prod-nombre">{p.nombre}</h3>
+                {p.texto && <p class="prod-texto">{p.texto}</p>}
+                <div class="prod-pie">
+                  {precio && <span class="prod-precio">{precio}</span>}
+                  <a class="prod-pedir" href={pedir(p.nombre)} rel={/^https?:/.test(pedir(p.nombre)) ? 'noopener' : undefined} target={/^https?:/.test(pedir(p.nombre)) ? '_blank' : undefined} aria-label={`${boton}: ${p.nombre}`}>
+                    {boton}
+                    <Icono nombre="flecha" tam={16} />
+                  </a>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {(nota || s.cta?.url) && (
+        <div class="prod-final">
+          {nota && <p>{nota}</p>}
+          {s.cta?.url && <a class="btn" href={s.cta.url}>{s.cta.texto}</a>}
+        </div>
+      )}
+      {css && <style is:inline set:html={css} />}
+    </Seccion>
+  )
+}
+
+<style>
+  :global(.prod-mancha) { width: 34rem; right: -14rem; top: 4rem; color: var(--polvo); }
+  .prod-cabeza { display: grid; gap: 2rem; margin-bottom: 3rem; }
+  @media (min-width: 1024px) { .prod-cabeza { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 3rem; margin-bottom: 4rem; } }
+  .prod-filtro { display: flex; flex-wrap: wrap; gap: .5rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+  .prod-filtro input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .prod-filtro label { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .4rem 1.15rem; border-radius: var(--hoja); border: 1.5px solid color-mix(in srgb, var(--c-texto) 25%, transparent); font-weight: 600; font-size: .95rem; cursor: pointer; }
+  .prod-filtro label:hover { border-color: var(--c-primario); }
+  .prod-filtro input:checked + label { background: var(--c-primario); border-color: var(--c-primario); color: var(--c-sobre-primario); }
+  .prod-filtro input:focus-visible + label { outline: 2px solid var(--c-acento); outline-offset: 2px; }
+
+  .prod-rejilla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 1rem; }
+  @media (min-width: 768px) { .prod-rejilla { gap: 3.5rem 2rem; } }
+  @media (min-width: 1000px) { .prod-rejilla { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4rem 2.5rem; } }
+  .producto { display: flex; flex-direction: column; min-width: 0; }
+  .prod-foto { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--polvo); }
+  .prod-foto :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .producto:hover .prod-foto :global(img) { transform: scale(1.05); }
+  .prod-marca { position: absolute; left: 50%; bottom: .75rem; transform: translateX(-50%); white-space: nowrap; }
+  .prod-ocasion { margin-top: 1.1rem; color: var(--rosa-legible); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .prod-nombre { margin-top: .35rem; font-size: clamp(1.3rem, 2vw, 1.7rem); line-height: 1.1; }
+  .prod-texto { margin-top: .5rem; font-size: .92rem; opacity: .8; }
+  .prod-pie { margin-top: auto; padding-top: 1rem; display: flex; flex-direction: column; align-items: flex-start; gap: .15rem; }
+  @media (min-width: 640px) { .prod-pie { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; } }
+  .prod-precio { font-family: var(--fuente-titulos); font-style: italic; font-size: 1.35rem; color: var(--hoja-legible); }
+  .prod-pedir { display: inline-flex; align-items: center; gap: .35rem; min-height: 2.75rem; font-weight: 650; font-size: .95rem; text-decoration: underline; text-underline-offset: .3em; }
+  .prod-pedir:hover { color: var(--rosa-legible); }
+  .prod-final { margin-top: 4rem; display: grid; justify-items: center; gap: 1.25rem; text-align: center; }
+  .prod-final p { max-width: 40rem; opacity: .8; }
+</style>

@@ -1,0 +1,135 @@
+/* Floristería y regalos — estilo suave: bandas a todo el ancho que se unen con ondas orgánicas,
+   rosa viejo + verde hoja + crema, fotos a sangre con bordes de pétalo, serif cursiva grande para títulos,
+   sans del sistema para el texto y botones con forma de hoja. */
+@import "tailwindcss";
+@import "./comun.css";
+@config "../../tailwind.config.mjs";
+
+:root {
+  --fuente-texto: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fuente-titulos: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia, serif;
+  --radio: .9rem; --ritmo: 4.5rem; --ritmo-md: 7.5rem; --ancho: 90rem;
+  /* Derivados de los colores de site.yaml (siguen funcionando si el cliente los cambia) */
+  --polvo: color-mix(in srgb, var(--c-acento) 20%, var(--c-fondo));
+  --polvo-suave: color-mix(in srgb, var(--c-acento) 9%, var(--c-fondo));
+  --salvia: color-mix(in srgb, var(--c-primario) 13%, var(--c-fondo));
+  --honda: color-mix(in srgb, var(--c-primario) 80%, #000);
+  --rosa-legible: color-mix(in srgb, var(--c-acento) 78%, var(--c-texto));
+  --hoja-legible: color-mix(in srgb, var(--c-primario) 85%, var(--c-texto));
+  --btn-fondo: var(--c-primario);
+  --btn-tinta: var(--c-sobre-primario);
+  /* Formas de pétalo (bordes orgánicos) y de hoja (botones) */
+  --petalo-1: 58% 42% 52% 48% / 46% 54% 46% 54%;
+  --petalo-2: 44% 56% 40% 60% / 56% 40% 60% 44%;
+  --petalo-3: 50% 50% 46% 54% / 62% 46% 54% 38%;
+  --hoja: 1.75rem .35rem 1.75rem .35rem;
+}
+
+@layer base {
+  html { scroll-padding-top: 5rem; }
+  body { font-family: var(--fuente-texto); font-size: 1.02rem; line-height: 1.65; }
+  h1, h2, h3 { font-family: var(--fuente-titulos); font-style: italic; font-weight: 400; letter-spacing: -.015em; line-height: 1.04; }
+}
+
+@layer components {
+  /* Bandas a todo el ancho: cada sección fija su fondo y su texto con --banda y --tinta */
+  .banda { position: relative; background: var(--banda); color: var(--tinta); --banda: var(--c-fondo); --tinta: var(--c-texto); --realce: var(--rosa-legible); --linea: color-mix(in srgb, var(--tinta) 18%, transparent); }
+  .banda--crema { --banda: var(--c-fondo); --tinta: var(--c-texto); --realce: var(--rosa-legible); }
+  .banda--polvo { --banda: var(--polvo); --tinta: var(--c-texto); --realce: var(--rosa-legible); }
+  .banda--salvia { --banda: var(--salvia); --tinta: var(--c-texto); --realce: var(--hoja-legible); }
+  .banda--hoja { --banda: var(--c-primario); --tinta: var(--c-sobre-primario); --realce: color-mix(in srgb, var(--c-sobre-primario) 75%, var(--c-acento)); --btn-fondo: var(--c-acento); --btn-tinta: var(--c-sobre-acento); }
+  .banda--rosa { --banda: var(--c-acento); --tinta: var(--c-sobre-acento); --realce: var(--c-sobre-acento); --btn-fondo: var(--c-primario); --btn-tinta: var(--c-sobre-primario); }
+  .banda--honda { --banda: var(--honda); --tinta: var(--c-sobre-primario); --realce: color-mix(in srgb, var(--c-sobre-primario) 75%, var(--c-acento)); --btn-fondo: var(--c-acento); --btn-tinta: var(--c-sobre-acento); }
+  .banda > .contenedor, .banda > .celdas { position: relative; z-index: 1; }
+
+  /* Onda orgánica que asoma por encima de la banda, de su mismo color */
+  .onda { position: absolute; left: 0; bottom: calc(100% - 1px); width: 100%; max-width: none; height: clamp(22px, 4.2vw, 70px); color: var(--banda); pointer-events: none; z-index: 2; }
+  .onda--espejo { transform: scaleX(-1); }
+  /* Manchas decorativas: dentro de una capa recortada, para no crear scroll lateral */
+  .deco { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .mancha { position: absolute; display: block; max-width: none; }
+
+  /* Celdas 50/50 a sangre: el contenido se alinea con el contenedor de 90 rem */
+  .celdas { display: grid; }
+  @media (min-width: 768px) { .celdas { grid-template-columns: 1fr 1fr; } }
+  .celda { padding: var(--ritmo) 1rem; min-width: 0; }
+  @media (min-width: 768px) {
+    .celda { padding-block: var(--ritmo-md); padding-inline: 2rem; }
+    .celda--izq { padding-left: max(2rem, calc((100vw - var(--ancho)) / 2 + 2rem)); padding-right: clamp(2rem, 4.5vw, 5.5rem); }
+    .celda--der { padding-right: max(2rem, calc((100vw - var(--ancho)) / 2 + 2rem)); padding-left: clamp(2rem, 4.5vw, 5.5rem); }
+  }
+  .celda-foto { position: relative; min-height: 20rem; overflow: hidden; background: var(--polvo); }
+  .celda-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 768px) { .celda-foto { min-height: 34rem; } }
+
+  /* Titulares */
+  .antetitulo { display: inline-flex; align-items: center; gap: .75rem; color: var(--realce); font-family: var(--fuente-texto); font-style: normal; font-size: .76rem; font-weight: 700; letter-spacing: .22em; line-height: 1.4; text-transform: uppercase; }
+  .antetitulo::before { content: ""; flex: none; width: 2.25rem; height: 2px; border-radius: 2px; background: currentColor; }
+  .titulo-seccion { margin-top: 1rem; font-size: clamp(2.35rem, 5.4vw, 4.75rem); }
+  .titular { max-width: 46rem; margin-bottom: 3rem; }
+  .titular--centro { margin-inline: auto; text-align: center; }
+  .titular--centro .antetitulo { justify-content: center; }
+  .titular-texto { margin-top: 1.25rem; font-size: 1.1rem; opacity: .85; max-width: 40rem; }
+  .titular--centro .titular-texto { margin-inline: auto; }
+  .serif { font-family: var(--fuente-titulos); font-style: italic; }
+
+  /* Botones en forma de hoja */
+  .btn { border-radius: var(--hoja); background: var(--btn-fondo); color: var(--btn-tinta); min-height: 3rem; padding-inline: 1.7rem; font-size: .98rem; font-weight: 650; }
+  .btn:hover { background: color-mix(in srgb, var(--btn-fondo) 84%, #000); }
+  .btn-sec { border-radius: var(--hoja); border: 1.5px solid currentColor; color: inherit; min-height: 3rem; padding-inline: 1.6rem; font-size: .98rem; font-weight: 650; }
+  .btn-sec:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+  .enlace { font-weight: 650; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: .3em; }
+  .enlace:hover { color: var(--realce); }
+
+  /* Fotos con borde de pétalo */
+  .petalo-1 { border-radius: var(--petalo-1); }
+  .petalo-2 { border-radius: var(--petalo-2); }
+  .petalo-3 { border-radius: var(--petalo-3); }
+  .etiqueta { display: inline-flex; align-items: center; gap: .35rem; padding: .25rem .8rem; border-radius: 1rem .25rem 1rem .25rem; font-size: .78rem; font-weight: 700; line-height: 1.4; background: var(--c-acento); color: var(--c-sobre-acento); }
+
+  /* Cabecera «hoja»: siempre sólida, fija arriba, a todo el ancho */
+  .cabecera--hoja { position: sticky; top: 0; background: color-mix(in srgb, var(--c-fondo) 95%, transparent); color: var(--c-texto); backdrop-filter: saturate(1.2) blur(10px); border-bottom: 1px solid color-mix(in srgb, var(--c-texto) 12%, transparent); }
+  .cabecera--hoja .cabecera-fila { min-height: 4.25rem; gap: 1.5rem; }
+  .cabecera--hoja .marca { gap: .6rem; }
+  .marca-flor { display: grid; place-items: center; flex: none; width: 2.4rem; height: 2.4rem; border-radius: var(--petalo-2); background: var(--c-acento); color: var(--c-sobre-acento); }
+  .cabecera--hoja .marca-nombre { font-family: var(--fuente-titulos); font-style: italic; font-size: 1.45rem; line-height: 1.1; }
+  .cabecera--hoja .menu-movil summary { min-height: 2.75rem; min-width: 2.75rem; justify-content: center; margin-right: -.5rem; }
+  .cabecera--hoja .menu-movil-panel { border-top: 1px solid color-mix(in srgb, var(--c-texto) 12%, transparent); padding-bottom: 1.5rem; }
+  .cabecera--hoja .menu-movil-panel a:not(.btn) { font-family: var(--fuente-titulos); font-style: italic; font-size: 1.35rem; }
+  @media (min-width: 900px) {
+    .cabecera--hoja .cabecera-fila { min-height: 5rem; }
+    .cabecera--hoja .marca-nombre { font-size: 1.7rem; }
+    .cabecera--hoja .marca { margin-right: 0; }
+    .cabecera--hoja .cabecera-nav { gap: 2rem; margin-left: auto; }
+    .cabecera--hoja .cabecera-nav a { font-size: .95rem; font-weight: 550; padding-block: .4rem; border-bottom: 2px solid transparent; }
+    .cabecera--hoja .cabecera-nav a:hover { color: var(--rosa-legible); border-bottom-color: currentColor; }
+  }
+
+  /* Formularios */
+  .campo input, .campo textarea, .campo select { border-radius: .9rem .25rem .9rem .25rem; background: color-mix(in srgb, #fff 82%, var(--c-fondo)); color: var(--c-texto); border: 1px solid color-mix(in srgb, var(--c-texto) 22%, transparent); }
+  .campo select { width: 100%; font: inherit; padding: .7rem .85rem; min-height: 2.9rem; }
+  .campo input { min-height: 2.9rem; }
+  .campo input:focus-visible, .campo textarea:focus-visible, .campo select:focus-visible { border-color: var(--c-primario); outline: 2px solid color-mix(in srgb, var(--c-primario) 50%, transparent); outline-offset: 1px; }
+  .formulario-aviso { opacity: .8; }
+  .formulario a { text-decoration: underline; }
+
+  /* Pie «hoja»: verde hondo a todo el ancho, con columnas */
+  .pie--hoja { padding-top: 5rem; }
+  .pie--hoja .pie-rejilla { gap: 2.5rem; }
+  @media (min-width: 768px) { .pie--hoja .pie-rejilla { grid-template-columns: 1.6fr 1fr 1.2fr; } }
+  @media (min-width: 1100px) { .pie--hoja .pie-rejilla { grid-template-columns: 1.8fr 1fr 1.3fr 1.3fr; } }
+  .pie--hoja .pie-nombre { font-family: var(--fuente-titulos); font-style: italic; font-weight: 400; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.05; }
+  .pie--hoja .pie-titulo { color: var(--realce); opacity: 1; font-weight: 700; letter-spacing: .2em; }
+  .pie--hoja .pie-lista a, .pie--hoja .pie-lista span { overflow-wrap: anywhere; }
+  .pie--hoja .pie-redes a { width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; border-radius: var(--petalo-1); border: 1px solid var(--linea); }
+  .pie--hoja .pie-redes a:hover { background: var(--c-acento); color: var(--c-sobre-acento); }
+  .pie--hoja .pie-legal a { text-decoration: underline; text-underline-offset: .2em; }
+  .pie-logo { height: 3rem; width: auto; }
+
+  /* Acordeón */
+  .faq summary { list-style: none; cursor: pointer; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq[open] .faq-signo { transform: rotate(45deg); }
+
+  .texto-largo h2 { font-family: var(--fuente-titulos); font-style: italic; font-weight: 400; font-size: 1.75rem; }
+}

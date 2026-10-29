@@ -1,0 +1,165 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+# Listas siempre planas: nunca una lista dentro de un elemento de lista. Precios siempre entre comillas.
+nombre: Verbena
+eslogan: Floristería y regalos en el centro de Salamanca.
+sector: floristeria
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = flor + nombre en texto.
+colores:
+  primario: "#2f5b3c"   # verde hoja (botones, bandas verdes, pie)
+  acento: "#a85862"     # rosa viejo (portada, cifras, contacto, detalles)
+  fondo: "#f8f1e6"      # crema
+  texto: "#26302a"
+contacto:
+  telefono: "923 21 48 63"
+  email: hola@verbenaflores.es
+  direccion: Calle Toro 34, 37002 Salamanca
+  horario: "Lunes a sábado, de 9:30 a 14:00 y de 17:00 a 20:30. Domingos, de 10:00 a 14:00."
+  whatsapp: "+34 644 18 52 07"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: ""
+  linkedin: ""
+menu:
+  - { texto: Ramos y regalos, url: "/#productos" }
+  - { texto: El taller, url: "/#sobre" }
+  - { texto: Servicios, url: "/#servicios" }
+  - { texto: Encargos, url: "/#encargos" }
+  - { texto: Galería, url: "/#galeria" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Encargar flores, url: "/#encargos" }
+seo:
+  titulo: Verbena · Floristería y regalos en Salamanca
+  descripcion: "Ramos de temporada, plantas, flores para bodas y coronas en Salamanca. Encargos por WhatsApp y entrega en el día en la ciudad."
+  tipo: Florist   # tipo de schema.org (Florist, Store, GiftShop…)
+marca_pie: true   # «Web creada con NoExpertise» en el pie (plan gratis)
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Floristería en Salamanca
+    titulo: Flores que dicen lo que tú quieres decir
+    texto: "Ramos de temporada atados a mano, plantas y pequeños regalos. Los preparamos el mismo día y te los llevamos a casa."
+    imagen: /fotos/hero.jpg
+    cta: { texto: Ver ramos, url: "/#productos" }
+    cta_secundario: { texto: Hacer un encargo, url: "/#encargos" }
+    items:   # cinta verde bajo la portada (solo `titulo`)
+      - { titulo: Entrega en el día en Salamanca }
+      - { titulo: Flor de temporada }
+      - { titulo: Envoltorio sin plástico }
+      - { titulo: Tarjeta escrita a mano }
+
+  productos:
+    activa: true
+    antetitulo: Ramos y regalos
+    titulo: Para cada ocasión, un ramo distinto
+    texto: "Una muestra de lo que hacemos. Cada ramo cambia con la temporada: dinos el color o la flor que te gusta y lo adaptamos."
+    productos:   # `categoria` = ocasión: da el filtro (Cumpleaños, Bodas, Duelo, Hogar…)
+      - { nombre: Ramo Alegría, texto: "Gerberas, ranúnculos y eucalipto en tonos melocotón.", precio: "desde 35 €", categoria: Cumpleaños, imagen: /fotos/producto-1.jpg, destacado: true }
+      - { nombre: Caja sorpresa, texto: "Flores frescas en caja de cartón con vela de soja y tarjeta.", precio: "42 €", categoria: Cumpleaños, imagen: /fotos/producto-2.jpg, destacado: false }
+      - { nombre: Ramo de novia silvestre, texto: "Rosas de jardín, paniculata y espigas, atado con cinta de algodón.", precio: "desde 120 €", categoria: Bodas, imagen: /fotos/producto-3.jpg, destacado: false }
+      - { nombre: Centro de mesa, texto: "Bajo y redondo, para que los invitados se vean al hablar.", precio: "desde 28 €", categoria: Bodas, imagen: /fotos/producto-4.jpg, destacado: false }
+      - { nombre: Corona de despedida, texto: "Flor blanca y verde en base de musgo, con cinta y dedicatoria.", precio: "desde 150 €", categoria: Duelo, imagen: /fotos/producto-5.jpg, destacado: false }
+      - { nombre: Ramo de condolencia, texto: "Lirios y rosas blancas para enviar al tanatorio o a casa.", precio: "55 €", categoria: Duelo, imagen: /fotos/producto-6.jpg, destacado: false }
+      - { nombre: Orquídea en cerámica, texto: "Orquídea blanca en maceta de barro esmaltado de Alba de Tormes.", precio: "39 €", categoria: Hogar, imagen: /fotos/producto-7.jpg, destacado: false }
+      - { nombre: Kokedama de helecho, texto: "Helecho en bola de musgo con cordel, lista para colgar.", precio: "24 €", categoria: Hogar, imagen: /fotos/producto-8.jpg, destacado: true }
+    boton: Lo quiero
+    etiqueta_destacado: Favorito
+    nota: "Precios orientativos con IVA. El envío en Salamanca capital cuesta 6 €; fuera de la ciudad, pregúntanos."
+    cta: { texto: Pedir un ramo a medida, url: "/#encargos" }
+
+  sobre:
+    activa: true
+    antetitulo: El taller
+    titulo: Flores de temporada, atadas a mano
+    declaracion: "Un ramo no se elige por catálogo: se hace pensando en quien lo va a recibir."
+    texto: "Verbena abrió en la calle Toro en 1994 y desde entonces la llevan dos hermanas, Elena y Rocío. Compramos la flor tres veces por semana y trabajamos con productores de la provincia siempre que la temporada lo permite.\n\nEn el taller, a la vista de todos, preparamos cada ramo en el momento. Si no sabes qué regalar, cuéntanos para quién es y te proponemos algo."
+    imagen: /fotos/taller.jpg
+    items:
+      - { titulo: Flor de cercanía, texto: "De productores de Salamanca y Ávila cuando hay temporada.", icono: hoja }
+      - { titulo: Sin plástico, texto: "Papel, algodón y cordel. Todo se puede reciclar.", icono: sol }
+      - { titulo: Tarjeta a mano, texto: "Escribimos tu mensaje con pluma, sin prisas.", icono: lapiz }
+      - { titulo: Consejo de verdad, texto: "Te decimos cómo cuidar cada flor para que dure más.", icono: corazon }
+    cta: { texto: Haz tu encargo, url: "/#encargos" }
+
+  cifras:
+    activa: true
+    antetitulo: Verbena en cifras
+    titulo: Tres décadas entre flores
+    items:
+      - { titulo: "30", texto: años haciendo ramos en la calle Toro }
+      - { titulo: "+1.200", texto: encargos al año para bodas y celebraciones }
+      - { titulo: "2 h", texto: "para entregar en la ciudad si pides antes de las 13:00" }
+      - { titulo: "0", texto: envoltorios de plástico }
+
+  servicios:
+    activa: true
+    antetitulo: Servicios
+    titulo: Más allá del ramo
+    texto: "Flores para bodas, para la oficina o para casa cada semana. Te hacemos un presupuesto sin compromiso."
+    imagen: /fotos/servicios.jpg
+    items:
+      - { titulo: Bodas y eventos, texto: "Ramo de novia, prendidos, centros, arco y decoración de la iglesia o la finca.", icono: corazon, precio: "Presupuesto sin compromiso" }
+      - { titulo: Flores cada semana, texto: "Suscripción para casa o para tu negocio: un ramo fresco cada lunes.", icono: calendario, precio: "desde 19 € a la semana" }
+      - { titulo: Empresas y hoteles, texto: "Recepciones, mostradores y regalos para clientes con tu tarjeta.", icono: maletin, precio: "Consultar" }
+      - { titulo: Talleres de ramos, texto: "Dos horas en el taller para aprender a montar tu propio ramo.", icono: tijeras, precio: "35 € por persona" }
+    cta: { texto: Pide presupuesto, url: "/#encargos" }
+
+  encargos:
+    activa: true
+    antetitulo: Encargos
+    titulo: Tu ramo, para el día que tú digas
+    texto: "Elige la ocasión, la fecha y si lo recoges o te lo llevamos. Te confirmamos el encargo y el precio antes de prepararlo."
+    items:
+      - { titulo: Cuéntanos la ocasión, texto: "Para quién es, qué colores le gustan y cuánto quieres gastar." }
+      - { titulo: Elige día y entrega, texto: "Recogida en la tienda o envío a domicilio en Salamanca y alrededores." }
+      - { titulo: Lo preparamos a mano, texto: "Con flor del día y la tarjeta escrita con tu mensaje." }
+      - { titulo: Te avisamos al entregarlo, texto: "Te mandamos un mensaje en cuanto llega a su destino." }
+    cta: { texto: Encargar por WhatsApp, url: "" }   # url vacía = WhatsApp de contacto
+    formulario_titulo: Prepara tu encargo
+    boton: Enviar encargo
+    nota: "Entrega en el día en Salamanca capital para pedidos antes de las 13:00. Para bodas, avísanos con al menos un mes."
+
+  galeria:
+    activa: true
+    antetitulo: Galería
+    titulo: Lo que sale del taller
+    texto: "Ramos, centros y rincones de la tienda. Cada semana subimos más en Instagram."
+    galeria:   # mosaico a borde completo: la 1.ª (y cada cinco) va en grande
+      - /fotos/galeria-1.jpg
+      - /fotos/galeria-2.jpg
+      - /fotos/galeria-3.jpg
+      - /fotos/galeria-4.jpg
+      - /fotos/galeria-5.jpg
+    cta: { texto: Síguenos en Instagram, url: "https://www.instagram.com/" }
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que nos dicen al recibir el ramo
+    testimonios:
+      - { texto: "Encargué un ramo para el cumpleaños de mi madre desde Madrid y llegó precioso, a la hora y con la tarjeta escrita a mano. Lloró de emoción.", autor: "Lucía · Madrid" }
+      - { texto: "Nos hicieron todas las flores de la boda. Entendieron a la primera lo que queríamos.", autor: "Marta y Jorge · Salamanca" }
+      - { texto: "Tengo la suscripción para la consulta y cada lunes es una alegría abrir la puerta.", autor: "Pilar · Santa Marta de Tormes" }
+      - { texto: "Me ayudaron con mucho cariño a elegir la corona para mi abuelo. Gracias por todo.", autor: "Daniel · Salamanca" }
+    nota: "Opiniones de clientes de la tienda."
+
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Lo que nos preguntáis a menudo
+    preguntas:
+      - { pregunta: "¿Entregáis el mismo día?", respuesta: "Sí, en Salamanca capital si haces el pedido antes de las 13:00. Para pueblos de alrededor, normalmente al día siguiente." }
+      - { pregunta: "¿Puedo encargar flores desde fuera de Salamanca?", respuesta: "Claro. Escríbenos por WhatsApp o rellena el formulario de encargos, te confirmamos el precio y lo pagas por transferencia o Bizum." }
+      - { pregunta: "¿Con cuánta antelación hay que pedir las flores de la boda?", respuesta: "Lo ideal es hablar dos o tres meses antes para ver estilo y presupuesto, y cerrar los detalles un mes antes." }
+      - { pregunta: "¿Hacéis coronas y ramos para tanatorios?", respuesta: "Sí, todos los días del año. Llámanos y lo preparamos con la dedicatoria que nos digas y lo llevamos directamente." }
+      - { pregunta: "¿Cuánto duran los ramos?", respuesta: "Entre una y dos semanas según la flor. Cambia el agua cada dos días y corta un poco los tallos: te lo explicamos al entregarlo." }
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Pásate por la tienda
+    texto: "Estamos en la calle Toro, a cinco minutos de la Plaza Mayor. Escríbenos y te respondemos en horario de tienda."
+    imagen: /placeholders/mapa.svg
+    boton: Enviar mensaje

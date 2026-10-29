@@ -1,0 +1,46 @@
+---
+// Cifras: banda rosa viejo a todo el ancho con una onda arriba; números enormes en cursiva (`items[].titulo`)
+// con su explicación (`items[].texto`), en 2 columnas en móvil y hasta 4 en escritorio, separados por filetes.
+// Titular opcional. Sin `items`, la sección no se pinta (la plataforma nunca inventa cifras).
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Mancha from '../ui/Mancha.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it && it.titulo) : [];
+---
+
+{
+  s && items.length > 0 && (
+    <Seccion id={Astro.props.id} banda="rosa" onda={2} espejo>
+      <Mancha slot="deco" forma={3} contorno class="cifras-mancha-1" />
+      <Mancha slot="deco" forma={1} contorno class="cifras-mancha-2" />
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <ul class:list={['cifras-rejilla', items.length >= 4 ? 'cifras--4' : `cifras--${items.length}`]}>
+        {items.map((it) => (
+          <li>
+            <p class="cifras-numero">{it.titulo}</p>
+            {it.texto && <p class="cifras-texto">{it.texto}</p>}
+          </li>
+        ))}
+      </ul>
+    </Seccion>
+  )
+}
+
+<style>
+  :global(.cifras-mancha-1) { width: 26rem; left: -18rem; top: -8rem; opacity: .4; }
+  @media (min-width: 768px) { :global(.cifras-mancha-1) { left: -10rem; top: -6rem; } }
+  :global(.cifras-mancha-2) { width: 20rem; right: -6rem; bottom: -8rem; opacity: .4; }
+  .cifras-rejilla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 1rem; text-align: center; }
+  .cifras-rejilla li { padding-inline: .5rem; }
+  .cifras--1 { grid-template-columns: 1fr; }
+  @media (min-width: 900px) {
+    .cifras--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cifras--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .cifras-rejilla li + li { border-left: 1px solid var(--linea); }
+  }
+  .cifras-numero { font-family: var(--fuente-titulos); font-style: italic; font-size: clamp(3.25rem, 8vw, 6.5rem); line-height: 1; letter-spacing: -.03em; }
+  .cifras-texto { margin: .75rem auto 0; max-width: 16rem; font-size: 1rem; font-weight: 600; opacity: .92; }
+</style>
