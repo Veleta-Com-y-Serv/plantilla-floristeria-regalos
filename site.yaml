@@ -56,14 +56,62 @@ secciones:
     titulo: Para cada ocasión, un ramo distinto
     texto: "Una muestra de lo que hacemos. Cada ramo cambia con la temporada: dinos el color o la flor que te gusta y lo adaptamos."
     productos:   # `categoria` = ocasión: da el filtro (Cumpleaños, Bodas, Duelo, Hogar…)
-      - { nombre: Ramo Alegría, texto: "Gerberas, ranúnculos y eucalipto en tonos melocotón.", precio: "desde 35 €", categoria: Cumpleaños, imagen: /fotos/producto-1.jpg, destacado: true }
+      - nombre: Ramo Alegría
+        texto: "Gerberas, ranúnculos y eucalipto en tonos melocotón."
+        precio: "desde 35 €"
+        categoria: Cumpleaños
+        imagen: /fotos/producto-1.jpg
+        imagenes: "/fotos/galeria-1.jpg; /fotos/galeria-2.jpg"
+        destacado: true
+        detalle: |
+          El Ramo Alegría nace para esos cumpleaños en los que apetece que la flor se note nada más abrir la puerta. Lleva gerberas, ranúnculos y eucalipto en tonos melocotón, con el verde justo para que el conjunto respire y no pese. Lo preparamos en el taller, a la vista de todos, y lo atamos a mano con cordel y papel reciclable.
+
+          Como la flor cambia con la temporada, la receta no es siempre idéntica. Si el cumpleañero tiene un color favorito o una flor que no soporta, dínoslo al pedirlo y lo adaptamos sin cambiar el espíritu del ramo. También puedes añadir una tarjeta escrita a mano con tu mensaje, que redactamos con pluma sin prisas.
+
+          Es un ramo pensado para quien lo recibe en casa o en la oficina, así que va en agua y bien protegido para el trayecto. Con un poco de cuidado, cortando los tallos en diagonal y cambiando el agua cada pocos días, las gerberas aguantan alegres durante bastante tiempo. Si prefieres recogerlo en la tienda, te lo tendremos listo a la hora que acordemos.
       - { nombre: Caja sorpresa, texto: "Flores frescas en caja de cartón con vela de soja y tarjeta.", precio: "42 €", categoria: Cumpleaños, imagen: /fotos/producto-2.jpg, destacado: false }
-      - { nombre: Ramo de novia silvestre, texto: "Rosas de jardín, paniculata y espigas, atado con cinta de algodón.", precio: "desde 120 €", categoria: Bodas, imagen: /fotos/producto-3.jpg, destacado: false }
+      - nombre: Ramo de novia silvestre
+        texto: "Rosas de jardín, paniculata y espigas, atado con cinta de algodón."
+        precio: "desde 120 €"
+        categoria: Bodas
+        imagen: /fotos/producto-3.jpg
+        imagenes: "/fotos/galeria-3.jpg; /fotos/galeria-4.jpg"
+        destacado: false
+        detalle: |
+          Un ramo de novia silvestre es el que parece recién cogido de un jardín, con las flores sueltas y un punto de desorden bonito. El nuestro combina rosas de jardín, paniculata y espigas, y se ata con cinta de algodón en el tono que elijas. Nada de espuma floral ni plásticos: todo se puede compostar o reciclar.
+
+          Antes de prepararlo hablamos contigo, con calma y sin compromiso, sobre el vestido, el lugar de la ceremonia y la época del año. Con eso proponemos una paleta y te enseñamos las flores que habrá disponibles. Si el día de la boda cae en plena temporada de rosas, mejor que mejor, pero siempre encontramos una alternativa que respete el estilo que buscas.
+
+          Podemos preparar también el ramo de las damas, los prendidos y el centro de la mesa nupcial para que todo case. El ramo se entrega el mismo día de la celebración, a la hora y en el sitio que nos indiques, con instrucciones sencillas para mantenerlo fresco hasta el brindis. Encárgalo con tiempo para que podamos apartar la flor que más te guste.
       - { nombre: Centro de mesa, texto: "Bajo y redondo, para que los invitados se vean al hablar.", precio: "desde 28 €", categoria: Bodas, imagen: /fotos/producto-4.jpg, destacado: false }
-      - { nombre: Corona de despedida, texto: "Flor blanca y verde en base de musgo, con cinta y dedicatoria.", precio: "desde 150 €", categoria: Duelo, imagen: /fotos/producto-5.jpg, destacado: false }
+      - nombre: Corona de despedida
+        texto: "Flor blanca y verde en base de musgo, con cinta y dedicatoria."
+        precio: "desde 150 €"
+        categoria: Duelo
+        imagen: /fotos/producto-5.jpg
+        imagenes: "/fotos/galeria-5.jpg"
+        destacado: false
+        detalle: |
+          Una corona de despedida es una manera discreta de acompañar a una familia en un momento difícil. La nuestra se hace con flor blanca y verde sobre una base de musgo, con cinta y una dedicatoria sencilla que escribimos como nos indiques. Buscamos un resultado sereno y cuidado, sin excesos.
+
+          Sabemos que estos encargos suelen llegar con prisa y sin demasiado ánimo para detalles, así que intentamos que el trámite sea lo más fácil posible. Basta con decirnos el nombre del tanatorio o de la iglesia, la hora de la ceremonia y el texto de la cinta. Nosotras nos encargamos del resto y la entregamos a tiempo, con delicadeza.
+
+          Si lo prefieres, podemos proponerte otras flores o tonos según el gusto de la familia, o preparar un ramo de condolencia para enviar a casa. También te orientamos si no sabes qué es lo más apropiado: preguntarnos no compromete a nada. Llámanos o escríbenos por WhatsApp y te contestaremos con el cariño y la rapidez que la ocasión merece.
       - { nombre: Ramo de condolencia, texto: "Lirios y rosas blancas para enviar al tanatorio o a casa.", precio: "55 €", categoria: Duelo, imagen: /fotos/producto-6.jpg, destacado: false }
       - { nombre: Orquídea en cerámica, texto: "Orquídea blanca en maceta de barro esmaltado de Alba de Tormes.", precio: "39 €", categoria: Hogar, imagen: /fotos/producto-7.jpg, destacado: false }
-      - { nombre: Kokedama de helecho, texto: "Helecho en bola de musgo con cordel, lista para colgar.", precio: "24 €", categoria: Hogar, imagen: /fotos/producto-8.jpg, destacado: true }
+      - nombre: Kokedama de helecho
+        texto: "Helecho en bola de musgo con cordel, lista para colgar."
+        precio: "24 €"
+        categoria: Hogar
+        imagen: /fotos/producto-8.jpg
+        imagenes: "/fotos/galeria-1.jpg; /fotos/taller.jpg"
+        destacado: true
+        detalle: |
+          La kokedama es una forma japonesa de cultivar una planta sin maceta: las raíces se envuelven en una bola de musgo y se sujetan con cordel. La nuestra lleva un helecho de hoja suave y está lista para colgar junto a una ventana luminosa o apoyar sobre un platito en la mesa del salón. Es un regalo que sorprende y que cuesta poco mantener.
+
+          Cada bola se prepara a mano en el taller, con musgo vivo y un sustrato ligero que retiene la humedad. Para cuidarla basta con sumergirla en agua un rato cuando notes que pesa menos y dejarla escurrir después. Al helecho le gusta la luz indirecta y el ambiente algo húmedo, así que se lleva muy bien con un baño o una cocina con buena claridad.
+
+          Te la entregamos con una pequeña tarjeta de cuidados escrita a mano, para que quien la reciba sepa desde el primer día cómo tratarla. Si buscas algo para un piso pequeño, para una persona que dice no tener buena mano con las plantas o simplemente para darte un capricho verde, esta kokedama es una apuesta segura.
     boton: Lo quiero
     etiqueta_destacado: Favorito
     nota: "Precios orientativos con IVA. El envío en Salamanca capital cuesta 6 €; fuera de la ciudad, pregúntanos."

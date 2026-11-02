@@ -3,10 +3,13 @@
 // ocasiones a la derecha (botones de opción sin JavaScript: solo con más de una `categoria`). Rejilla de 2 columnas
 // en móvil, 3 en tableta y 4 en escritorio; cada producto con foto de borde de pétalo, ocasión, nombre, texto,
 // precio (si lo hay) y un enlace para pedirlo por WhatsApp (o al formulario de encargos si no hay WhatsApp).
+// Los productos con `detalle` tienen página propia (/productos/<slug>/): el nombre es un enlace (tarjeta entera
+// clicable) con un «Ver más»; los demás siguen como antes.
 // Campos: `productos[]` (nombre, texto, precio, categoria, imagen, destacado), `boton`, `etiqueta_destacado`,
 // `nota`, `cta`. Sin productos ni texto, la sección no se pinta.
 import { seccion, site, whatsapp, agrupar, valor, slug } from '../../data/site';
 import { altFicha } from '../../lib/seo';
+import { enlaceDe } from '../../lib/paginas';
 import Seccion from '../ui/Seccion.astro';
 import Titular from '../ui/Titular.astro';
 import Imagen from '../ui/Imagen.astro';
@@ -65,8 +68,9 @@ const css = conFiltro
                   {p.destacado === true && <span class="etiqueta prod-marca"><Icono nombre="corazon" tam={14} />{destacadoTexto}</span>}
                 </div>
                 {ocasion && <p class="prod-ocasion">{ocasion}</p>}
-                <h3 class="prod-nombre">{p.nombre}</h3>
+                <h3 class="prod-nombre">{enlaceDe(p) ? <a href={enlaceDe(p)} class="prod-enlace">{p.nombre}</a> : p.nombre}</h3>
                 {p.texto && <p class="prod-texto">{p.texto}</p>}
+                {enlaceDe(p) && <span class="prod-ver" aria-hidden="true">Ver más <Icono nombre="flecha" tam={16} /></span>}
                 <div class="prod-pie">
                   {precio && <span class="prod-precio">{precio}</span>}
                   <a class="prod-pedir" href={pedir(p.nombre)} rel={/^https?:/.test(pedir(p.nombre)) ? 'noopener' : undefined} target={/^https?:/.test(pedir(p.nombre)) ? '_blank' : undefined} aria-label={`${boton}: ${p.nombre}`}>
@@ -104,7 +108,13 @@ const css = conFiltro
   .prod-rejilla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 1rem; }
   @media (min-width: 768px) { .prod-rejilla { gap: 3.5rem 2rem; } }
   @media (min-width: 1000px) { .prod-rejilla { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4rem 2.5rem; } }
-  .producto { display: flex; flex-direction: column; min-width: 0; }
+  .producto { position: relative; display: flex; flex-direction: column; min-width: 0; }
+  .prod-enlace { color: inherit; text-decoration: none; }
+  .prod-enlace::after { content: ""; position: absolute; inset: 0; }
+  .prod-enlace:focus-visible { outline: none; }
+  .producto:has(.prod-enlace:focus-visible) { outline: 2px solid var(--c-primario); outline-offset: 4px; }
+  .prod-ver { display: inline-flex; align-items: center; gap: .3rem; margin-top: .5rem; font-size: .88rem; font-weight: 650; color: var(--hoja-legible); }
+  .prod-pedir { position: relative; z-index: 2; }
   .prod-foto { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--polvo); }
   .prod-foto :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
   .producto:hover .prod-foto :global(img) { transform: scale(1.05); }

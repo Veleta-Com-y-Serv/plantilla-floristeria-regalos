@@ -66,3 +66,10 @@ rosa viejo, verde hoja y crema, sin texto legible, sin logotipos, sin personas.
 - Cortes rectos entre bandas de distinto color sin la onda (es la seña de la plantilla).
 - Fuentes externas, dependencias nuevas o JavaScript más allá del de la cabecera.
 - Precios, cifras u opiniones fijos en los componentes: todo sale de `site.yaml` y los componentes pintan bien vacíos.
+
+## Páginas propias (fichas)
+Con la misma piel que la portada: cabecera y pie de la plantilla, migas (Inicio › Sección › Elemento), hero con la foto del
+elemento (sin foto, su icono), `detalle` en párrafos, tabla de datos, caja de contacto, galería (`imagenes`) y otros elementos
+de la misma lista.
+Banda de polvo de rosa con migas y hero partido (título en serif cursiva, foto con borde de pétalo o flor grande), banda crema con
+el texto y la caja verde de encargo con forma de hoja, galería en salvia con pétalos y otros ramos en rejilla de cuatro.
