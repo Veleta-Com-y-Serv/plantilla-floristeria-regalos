@@ -15,6 +15,7 @@ import Titular from '../ui/Titular.astro';
 import Imagen from '../ui/Imagen.astro';
 import Icono from '../ui/Icono.astro';
 import Mancha from '../ui/Mancha.astro';
+import { enlace } from '../../lib/multipagina';
 interface Props { id: string }
 const { id } = Astro.props;
 const s = seccion(id);
@@ -24,7 +25,7 @@ const conFiltro = ocasiones.length > 1;
 const boton = valor(s?.boton) || 'Pedir';
 const destacadoTexto = valor(s?.etiqueta_destacado) || 'Favorito';
 const nota = valor(s?.nota);
-const destinoSin = seccion('encargos') ? '/#encargos' : '/#contacto';
+const destinoSin = seccion('encargos') ? enlace('/#encargos') : enlace('/#contacto');
 const pedir = (nombre: string) => whatsapp(site.contacto.whatsapp, `Hola, me gustaría pedir «${nombre}».`) || destinoSin;
 const formas = ['petalo-1', 'petalo-2', 'petalo-3'];
 const grupo = `${id}-ocasion`;
